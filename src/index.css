@@ -1,0 +1,111 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* CSS NAVBAR  */
+
+.navbarItems {
+  color: white;
+}
+
+/* CSS HOME  */
+.containerHome {
+  padding-top: 60px;
+}
+
+.banner-container {
+  position: relative;
+  display: inline-block; 
+  width: 100%;
+}
+
+.banner-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 1;
+}
+
+.imgBanner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.textBanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.icontiny {
+  width: 20px;
+}
+
+.buttonText {
+  color: white;
+  font-weight: bold;
+}
+
+.baseHome {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbar.bg-info,
+.navbar.bg-info .navbar-nav .nav-link,
+.navbar.bg-info .navbar-text {
+    color: white !important;
+    font-weight:bold;
+    font-size:large;
+}
+.priceHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+Button {
+  color: white;
+}
+
+
+/* CSS PIZZAS  */
+.containerPizzas {
+  padding-top: 150px;
+}
+
+.pizzasImageCard {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.pizzadetailItems {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  
+}
+
+/* CSS CARRITO  */
+.containerCarrito {
+  padding-top: 150px;
+}
+
+.carritoPagar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: larger;
+}
+
