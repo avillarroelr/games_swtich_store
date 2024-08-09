@@ -32,7 +32,7 @@ const Home = () => {
                     <Card className="bg-dark text-white">
                         {/* Envuelve la imagen y el texto en un nuevo contenedor */}
                         <div className="banner-container">
-                            <Card.Img src="./src/img/pizza_home.jpg" className="imgBanner" alt="" />
+                            <Card.Img src="./src/img/games4.jpg" className="imgBanner" alt="" />
                             <Card.ImgOverlay>
                                 <div className="textBanner">
                                     <h1>¡Pizzería Mamma Mía!</h1>

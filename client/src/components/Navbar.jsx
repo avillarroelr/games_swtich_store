@@ -19,13 +19,13 @@ export default function NavigationBar() {
         <Navbar fixed="top" className="mb-4" bg="info" expand="lg">
             <Container>
                 <Navbar.Brand as={NavLink} to="/">
-                    <img src="./src/img/pizza.png" alt="" />
+                    <img src="./src/img/icon_tienda.png" alt="" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto nav-main">
                         <CustomNavLink to="/">
-                            Pizzería Mamma Mía!
+                            Games Switch Store
                         </CustomNavLink>
                     </Nav>
                     <Nav>

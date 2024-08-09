@@ -57,12 +57,15 @@
   justify-content: space-between;
 }
 
-.navbar.bg-info,
+.navbar.bg-info {
+  background-color: red !important;
+}
+
 .navbar.bg-info .navbar-nav .nav-link,
 .navbar.bg-info .navbar-text {
-    color: white !important;
-    font-weight:bold;
-    font-size:large;
+  color: white !important;
+  font-weight: bold;
+  font-size: large;
 }
 .priceHome {
   display: flex;
