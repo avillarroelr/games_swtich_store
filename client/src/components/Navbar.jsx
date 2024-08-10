@@ -1,20 +1,19 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import '../index.css';
 
-export default function NavigationBar() {
-    // Usa useCart para acceder al total del carrito
+export default function NavigationBar({ user, onLogout }) {
     const { totalPrice } = useCart();
+    const navigate = useNavigate();
 
-    // Definiendo componente NavLink para usar con react-bootstrap
     const CustomNavLink = ({ to, children }) => (
         <Nav.Link as={NavLink} to={to} className={({ isActive }) => (isActive ? "active" : "")}>
             {children}
         </Nav.Link>
     );
-    // Renderizando el navbas con las rutas a home y carrito
+
     return (
         <Navbar fixed="top" className="mb-4" bg="info" expand="lg">
             <Container>
@@ -27,8 +26,28 @@ export default function NavigationBar() {
                         <CustomNavLink to="/">
                             Games Switch Store
                         </CustomNavLink>
+                        <CustomNavLink to="/agregar-juego">
+                            Agregar Juego
+                        </CustomNavLink>
                     </Nav>
                     <Nav>
+                        {user ? (
+                            <>
+                                <Nav.Link onClick={onLogout}>Cerrar Sesión</Nav.Link>
+                                <CustomNavLink to="/perfil">
+                                    <img src={user.avatar} alt="Perfil" style={{ width: '40px', borderRadius: '50%' }} />
+                                </CustomNavLink>
+                            </>
+                        ) : (
+                            <>
+                                <CustomNavLink to="/login">
+                                    Iniciar Sesión
+                                </CustomNavLink>
+                                <CustomNavLink to="/registrarse">
+                                    Registrarse +
+                                </CustomNavLink>
+                            </>
+                        )}
                         <img src="./src/img/shopping-cart.png" alt="Carrito" />
                         <CustomNavLink to="/carrito">
                             ${totalPrice}
@@ -39,4 +58,8 @@ export default function NavigationBar() {
         </Navbar>
     );
 }
+
+
+
+
 

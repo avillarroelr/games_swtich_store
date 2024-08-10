@@ -1,0 +1,29 @@
+[
+    {
+      "id_juego": "1",
+      "url_imagen_juego": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_656/b_white/f_auto/q_auto/ncom/software/switch/70010000042351/875a656d7caf7c1a1dec74522943fcf06eb700fa8ccc94cd36b4c3c192f29109",
+      "titulo": "Teenage Mutant Ninja Turtles: The Cowabunga Collection",
+      "descripción": "Teenage Mutant Ninja Turtles: The Cowabunga Collection reúne trece juegos clásicos de TMNT de Konami en un increíble paquete. Esta colección es una oportunidad única para que los jugadores experimenten estos juegos tan populares e influyentes en Nintendo Switch™. Incluye un montón de características nuevas",
+      "precio": "56000",
+      "stock": "10",
+      "categoría": ["Aventuras", "Multijugador"]
+    },
+    {
+      "id_juego": "2",
+      "url_imagen_juego": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_656/b_white/f_auto/q_auto/ncom/software/switch/70010000045182/74fb568c43f9c43895db89d4ebb2b510894de7141b066b953aebda427a46af87",
+      "titulo": "NieR:Automata The End of YoRHa Edition",
+      "descripción": "NieR:Automata The End of YoRHa Edition es la versión para Nintendo Switch™ de NieR:Automata, el premiado juego de rol y acción postapocalíptico que ha alcanzado una popularidad asombrosa en todo el mundo. Unos invasores de otro mundo han atacado inesperadamente desplegando su arma secreta: unas formas de vida mecánicas.",
+      "precio": "56000",
+      "stock": "5",
+      "categoría": ["Acción", "Un Jugador"]
+    },
+    {
+      "id_juego": "3",
+      "url_imagen_juego": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_656/b_white/f_auto/q_auto/ncom/software/switch/70010000042924/c7e6839975afd46893274cf7cfdb63b39a54d6f700938bcd1c8849ac66755d00",
+      "titulo": "Metroid Dread",
+      "descripción": "Después de investigar una misteriosa transmisión del planeta ZDR, Samus se enfrenta a un enigmático enemigo que la atrapa en este peligroso mundo. Este remoto planeta está infestado de despiadadas formas de vida alienígenas y siniestros mecanismos llamados E.M.M.I. Sé cazadora y presa a la vez mientras te abres camino a través de un peligroso mundo en la aventura más intensa de Samus hasta ahora.",
+      "precio": "58990",
+      "stock": "7",
+      "categoría": ["Acción", "Un Jugador"]
+    }
+]

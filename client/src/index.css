@@ -78,25 +78,23 @@ Button {
   color: white;
 }
 
-
-/* CSS PIZZAS  */
-.containerPizzas {
+/* CSS JUEGOS  */
+.containerJuegos {
   padding-top: 150px;
 }
 
-.pizzasImageCard {
+.juegosImageCard {
   width: 100%; 
   height: 100%; 
   object-fit: cover; 
 }
 
-.pizzadetailItems {
+.juegodetailItems {
   display:flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  
 }
 
 /* CSS CARRITO  */
@@ -110,5 +108,16 @@ Button {
   justify-content: space-between;
   align-items: center;
   font-size: larger;
+}
+
+/* CSS para el formulario de registro */
+
+.card {
+  padding: 20px;
+}
+
+.carousel img {
+  max-width: 200px;
+  margin: auto;
 }
 

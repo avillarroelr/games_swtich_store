@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../index.css';
 
-const Home = ({ user, onAddToWishlist }) => {
+const Home = () => {
     const [juegos, setJuegos] = useState([]);
     const { addToCart, formatNumber } = useCart();
     let navigate = useNavigate();
@@ -38,7 +38,7 @@ const Home = ({ user, onAddToWishlist }) => {
                         </div>
                     </Card>
                 </Col>
-            </Row>
+            </Row>  
             <Row>
                 {juegos.map((juego) => (
                     <Col sm={12} md={6} lg={4} key={juego.id_juego} className="mb-4">
@@ -63,18 +63,6 @@ const Home = ({ user, onAddToWishlist }) => {
                                 <div className="baseHome">
                                     <Button className="buttonText" variant="info" onClick={() => navigate(`/juego/${juego.id_juego}`)}>Ver Más  <img src="./src/img/eyes.png" alt="" className="icontiny" /></Button>
                                     <Button className="ms-2 buttonText" variant="danger" onClick={() => addToCart(juego)}>Añadir <img src="./src/img/shopping-cart.png" alt="" className="icontiny" /></Button>
-                                    {user && (
-                                        <Button
-                                            className="ms-2 buttonText"
-                                            variant="outline-danger"
-                                            onClick={() => {
-                                                onAddToWishlist(juego);
-                                                alert('Agregado a lista de deseos');
-                                            }}
-                                        >
-                                            ❤️
-                                        </Button>
-                                    )}
                                 </div>
                             </Card.Body>
                         </Card>
@@ -83,8 +71,6 @@ const Home = ({ user, onAddToWishlist }) => {
             </Row>
         </Container>
     );
-};
+}
 
 export default Home;
-
-

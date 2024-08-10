@@ -4,10 +4,9 @@ import { Card, ListGroup, Button, Container, Row, Col } from 'react-bootstrap';
 import '../index.css';
 
 const Carrito = () => {
-    // Importando fuciones del context para manipular carrito y dar formato a valores
     const { cartItems, addToCart, removeFromCart, formatNumber } = useCart();
 
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalPrice = cartItems.reduce((total, item) => total + item.precio * item.quantity, 0);
 
     return (
         <Container className='containerCarrito'>
@@ -21,16 +20,16 @@ const Carrito = () => {
                                     <ListGroup.Item
                                         as="li"
                                         className="d-flex justify-content-between align-items-start"
-                                        key={item.id}
+                                        key={item.id_juego}
                                     >
                                         <div className="ms-2 me-auto">
-                                            <div className="fw-bold">{item.name}</div>
-                                            ${formatNumber(item.price)} x {item.quantity}
+                                            <div className="fw-bold">{item.titulo}</div>
+                                            ${formatNumber(item.precio)} x {item.quantity}
                                         </div>
                                         <div>
-                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(item.id)}>-</Button>
+                                            <Button variant="danger" size="sm" onClick={() => removeFromCart(item.id_juego)}>-</Button>
                                             <span className="badge bg-dark mx-3">
-                                                <h6>${formatNumber(item.price * item.quantity)}</h6>
+                                                <h6>${formatNumber(item.precio * item.quantity)}</h6>
                                             </span>
                                             <Button variant="primary" size="sm" onClick={() => addToCart(item)}>+</Button>
                                         </div>
@@ -52,6 +51,7 @@ const Carrito = () => {
 }
 
 export default Carrito;
+
 
 
 
