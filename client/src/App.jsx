@@ -76,9 +76,9 @@ export default function App() {
                     <Route path="/" element={<Home user={user} onAddToWishlist={handleAddToWishlist} />} />
                     <Route path="/detallejuego/:id_juego" element={<DetalleJuego user={user} onAddToWishlist={handleAddToWishlist} />} />
                     <Route path="/carrito" element={<Carrito />} />
-                    <Route path="/agregar-juego" element={user && user.rol === "1" ? <AddGame /> : <Login onLogin={handleLogin} />} /> {/* Solo accesible para administradores */}
-                    <Route path="/administrar-usuarios" element={user && user.rol === "1" ? <ManageUsers /> : <Login onLogin={handleLogin} />} /> {/* Solo accesible para administradores */}
-                    <Route path="/administrar-juegos" element={user && user.rol === "1" ? <ManageGames /> : <Login onLogin={handleLogin} />} /> {/* Solo accesible para administradores */}
+                    <Route path="/agregar-juego" element={user && user.rol === "1" ? <AddGame /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin  */}
+                    <Route path="/administrar-usuarios" element={user && user.rol === "1" ? <ManageUsers /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin  */}
+                    <Route path="/administrar-juegos" element={user && user.rol === "1" ? <ManageGames /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin */}
                     <Route path="/registrarse" element={<Register />} />
                     <Route path="/login" element={<Login onLogin={handleLogin} />} />
                     <Route path="/perfil" element={user ? <Profile user={user} wishlist={wishlist} /> : <Login onLogin={handleLogin} />} />
