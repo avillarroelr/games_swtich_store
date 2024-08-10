@@ -4,9 +4,8 @@ import { useCart } from "../context/CartContext";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import '../index.css';
 
-const Juego = ({ user, onAddToWishlist }) => {
+const DetalleJuego = ({ user, onAddToWishlist }) => {
     const { id_juego } = useParams();
     const [juego, setJuego] = useState(null);
     const { addToCart, formatNumber } = useCart();
@@ -28,7 +27,7 @@ const Juego = ({ user, onAddToWishlist }) => {
     const isFavorited = user && user.wishlist && user.wishlist.find(item => item.id_juego === juego.id_juego);
 
     return (
-        <Container className="mt-5">
+        <Container style={{ marginTop: '80px' }}>
             <Card>
                 <Card.Img variant="top" src={juego.url_imagen_juego} alt={juego.titulo} />
                 <Card.Body>
@@ -53,4 +52,6 @@ const Juego = ({ user, onAddToWishlist }) => {
     );
 };
 
-export default Juego;
+export default DetalleJuego;
+
+

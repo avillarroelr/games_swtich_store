@@ -9,7 +9,6 @@ const Register = () => {
         contrasena: '',
         fecha_registro: new Date().toLocaleDateString(),
         avatar: '',
-        rol: ''
     });
 
     const avatars = [
@@ -34,10 +33,10 @@ const Register = () => {
             .then(response => response.json())
             .then(data => {
                 const newId = data.length > 0 ? (parseInt(data[data.length - 1].id_usuario) + 1).toString() : "1";
-                const userWithId = { ...newUser, id_usuario: newId };
+                const userWithId = { ...newUser, id_usuario: newId, rol: "usuario" }; // Rol por defecto: usuario
                 const updatedUsers = [...data, userWithId];
                 return fetch('/usuarios.json', {
-                    method: 'PUT', // Cambia a POST si es necesario para tu backend
+                    method: 'PUT', // Cambia a POST cuando usemos el backend
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedUsers)
                 });
@@ -54,11 +53,11 @@ const Register = () => {
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <Row>
-                <Col md={12}>
+            <Row className="w-100 justify-content-center">
+                <Col md={8} lg={4}>
                     <Card>
                         <Card.Body>
-                            <Card.Title>Regístrate</Card.Title>
+                            <Card.Title className="text-center mb-4">Regístrate</Card.Title>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Nombre:</Form.Label>
@@ -77,26 +76,29 @@ const Register = () => {
                                     <Form.Control type="password" name="contrasena" value={newUser.contrasena} onChange={handleChange} required />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Rol:</Form.Label>
-                                    <Form.Control type="text" name="rol" value={newUser.rol} onChange={handleChange} required />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
                                     <Form.Label>Elige tu Avatar:</Form.Label>
-                                    <Carousel interval={null}>
+                                    <Carousel interval={null} className="text-center carousel-dark">
                                         {avatars.map((avatar, index) => (
                                             <Carousel.Item key={index}>
                                                 <img
-                                                    className="d-block w-100"
+                                                    className="d-block mx-auto"
                                                     src={avatar}
                                                     alt={`Avatar ${index}`}
                                                     onClick={() => handleAvatarSelect(avatar)}
-                                                    style={{ cursor: 'pointer', borderRadius: '50%', border: newUser.avatar === avatar ? '5px solid red' : 'none' }}
+                                                    style={{ 
+                                                        cursor: 'pointer', 
+                                                        borderRadius: '50%', 
+                                                        border: newUser.avatar === avatar ? '5px solid red' : 'none',
+                                                        width: '150px',
+                                                        height: '150px',
+                                                        objectFit: 'cover'
+                                                    }}
                                                 />
                                             </Carousel.Item>
                                         ))}
                                     </Carousel>
                                 </Form.Group>
-                                <Button variant="primary" type="submit">Registrarse</Button>
+                                <Button variant="primary" type="submit" className="w-100">Registrarse</Button>
                             </Form>
                         </Card.Body>
                     </Card>
@@ -107,3 +109,4 @@ const Register = () => {
 };
 
 export default Register;
+

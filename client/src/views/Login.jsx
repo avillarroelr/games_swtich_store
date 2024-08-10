@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
 
 const Login = ({ onLogin }) => {
     const [credentials, setCredentials] = useState({ email: '', contrasena: '' });
@@ -18,7 +19,7 @@ const Login = ({ onLogin }) => {
                 const user = data.find(user => user.email === credentials.email && user.contrasena === credentials.contrasena);
                 if (user) {
                     onLogin(user);
-                    navigate('/perfil');
+                    navigate('/');
                 } else {
                     alert('Credenciales incorrectas');
                 }
@@ -26,23 +27,44 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <div>
-            <br />
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" name="email" value={credentials.email} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Contraseña:</label>
-                    <input type="password" name="contrasena" value={credentials.contrasena} onChange={handleChange} required />
-                </div>
-                <button type="submit">Iniciar Sesión</button>
-            </form>
-        </div>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+            <Row className="w-100 justify-content-center">
+                <Col md={6} lg={4}>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title className="text-center mb-4">Iniciar Sesión</Card.Title>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Email:</Form.Label>
+                                    <Form.Control 
+                                        type="email" 
+                                        name="email" 
+                                        value={credentials.email} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Contraseña:</Form.Label>
+                                    <Form.Control 
+                                        type="password" 
+                                        name="contrasena" 
+                                        value={credentials.contrasena} 
+                                        onChange={handleChange} 
+                                        required 
+                                    />
+                                </Form.Group>
+                                <Button variant="primary" type="submit" className="w-100">Iniciar Sesión</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
 export default Login;
+
+
 

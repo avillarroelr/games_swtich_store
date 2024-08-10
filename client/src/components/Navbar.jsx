@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import '../index.css';
 
 export default function NavigationBar({ user, onLogout }) {
     const { totalPrice } = useCart();
@@ -15,7 +14,7 @@ export default function NavigationBar({ user, onLogout }) {
     );
 
     return (
-        <Navbar fixed="top" className="mb-4" bg="info" expand="lg">
+        <Navbar fixed="top" className="mb-4" bg="danger" expand="lg">
             <Container>
                 <Navbar.Brand as={NavLink} to="/">
                     <img src="./src/img/icon_tienda.png" alt="" />
@@ -25,9 +24,6 @@ export default function NavigationBar({ user, onLogout }) {
                     <Nav className="me-auto nav-main">
                         <CustomNavLink to="/">
                             Games Switch Store
-                        </CustomNavLink>
-                        <CustomNavLink to="/agregar-juego">
-                            Agregar Juego
                         </CustomNavLink>
                     </Nav>
                     <Nav>
@@ -58,6 +54,7 @@ export default function NavigationBar({ user, onLogout }) {
         </Navbar>
     );
 }
+
 
 
 

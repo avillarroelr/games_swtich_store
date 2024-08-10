@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCart } from "../context/CartContext";
-import { Card, ListGroup, Button, Container, Row, Col } from 'react-bootstrap';
-import '../index.css';
+import { Card, ListGroup, Button, Container, Row, Col, Image } from 'react-bootstrap';
 
 const Carrito = () => {
     const { cartItems, addToCart, removeFromCart, formatNumber } = useCart();
@@ -9,7 +8,7 @@ const Carrito = () => {
     const totalPrice = cartItems.reduce((total, item) => total + item.precio * item.quantity, 0);
 
     return (
-        <Container className='containerCarrito'>
+        <Container className='containerCarrito' style={{ marginTop: '80px' }}>
             <Row className="justify-content-md-center">
                 <Col md={8}>
                     <Card>
@@ -22,6 +21,12 @@ const Carrito = () => {
                                         className="d-flex justify-content-between align-items-start"
                                         key={item.id_juego}
                                     >
+                                        <Image 
+                                            src={item.url_imagen_juego} 
+                                            alt={item.titulo} 
+                                            rounded 
+                                            style={{ width: '60px', height: '60px', objectFit: 'cover', marginRight: '15px' }}
+                                        />
                                         <div className="ms-2 me-auto">
                                             <div className="fw-bold">{item.titulo}</div>
                                             ${formatNumber(item.precio)} x {item.quantity}
@@ -51,6 +56,8 @@ const Carrito = () => {
 }
 
 export default Carrito;
+
+
 
 
 

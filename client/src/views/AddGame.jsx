@@ -12,7 +12,7 @@ const AddGame = () => {
                 
                 const updatedGames = [...data, gameWithId];
                 return fetch('/juegos.json', {
-                    method: 'PUT', // Cambia a POST si es necesario para tu backend
+                    method: 'PUT', 
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedGames)
                 });
@@ -35,5 +35,6 @@ const AddGame = () => {
 };
 
 export default AddGame;
+
 
 

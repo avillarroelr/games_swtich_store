@@ -35,9 +35,9 @@ const GameForm = ({ onAddGame }) => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <Row>
-                <Col md={12}>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh', marginTop: '80px' }}>
+            <Row className="justify-content-center w-100">
+                <Col md={8} lg={6}>  {/* Ajusta el tamaño de la columna para pantallas grandes */}
                     <Card>
                         <Card.Body>
                             <Card.Title>Agregar Nuevo Juego</Card.Title>
@@ -77,5 +77,7 @@ const GameForm = ({ onAddGame }) => {
 };
 
 export default GameForm;
+
+
 
 
