@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Swal from 'sweetalert2';
 
 const DetalleJuego = ({ user, onAddToWishlist }) => {
     const { id_juego } = useParams();
@@ -34,13 +35,19 @@ const DetalleJuego = ({ user, onAddToWishlist }) => {
                     <Card.Title>{juego.titulo}</Card.Title>
                     <Card.Text>{juego.descripción}</Card.Text>
                     <h4>Precio: ${formatNumber(juego.precio)}</h4>
-                    <Button variant="danger" onClick={() => addToCart(juego)}>Añadir al Carrito</Button>
+                    <Button variant="danger" onClick={() => addToCart(juego)} className="me-5">Añadir al Carrito</Button>
                     {user && (
                         <button
                             className={`button-favorite ${isFavorited ? 'favorited' : ''}`}
                             onClick={() => {
                                 onAddToWishlist(juego);
-                                alert(isFavorited ? 'Eliminado de la lista de deseos' : 'Agregado a la lista de deseos');
+                                //alert(isFavorited ? 'Eliminado de la lista de deseos' : 'Agregado a la lista de deseos');
+                                Swal.fire({
+                                    icon: isFavorited ? 'info' : 'success',
+                                    title: isFavorited ? 'Eliminado de la lista de deseos' : 'Agregado a la lista de deseos',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
                             }}
                         >
                             {isFavorited ? '❤️' : '🤍'}
@@ -53,5 +60,3 @@ const DetalleJuego = ({ user, onAddToWishlist }) => {
 };
 
 export default DetalleJuego;
-
-

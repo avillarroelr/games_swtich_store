@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 const Login = ({ onLogin }) => {
     const [credentials, setCredentials] = useState({ email: '', contrasena: '' });
@@ -21,7 +22,14 @@ const Login = ({ onLogin }) => {
                     onLogin(user);
                     navigate('/');
                 } else {
-                    alert('Credenciales incorrectas');
+                    //alert('Credenciales incorrectas');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Credenciales incorrectas.',
+                        text: 'Por favor, inténtalo nuevamente.',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar',
+                    });
                 }
             });
     };

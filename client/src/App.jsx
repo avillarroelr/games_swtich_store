@@ -12,6 +12,7 @@ import ManageUsers from './views/ManageUsers';
 import ManageGames from './views/ManageGames';
 import { CartProvider } from './context/CartContext';
 import EditGame from './views/EditGame';
+import Swal from 'sweetalert2';
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -64,7 +65,13 @@ export default function App() {
                 })
                 .catch(error => console.error('Error al actualizar usuarios.json:', error));
         } else {
-            alert('El juego ya está en tu lista de deseos');
+            //alert('El juego ya está en tu lista de deseos');
+            Swal.fire({
+                icon: 'warning',
+                title: 'El juego ya está en tu lista de deseos.',
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar'
+            });
         }
     };
 

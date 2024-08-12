@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Image, Container, Row, Col } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 const EditGame = () => {
     const { id_juego } = useParams();
@@ -47,10 +48,25 @@ const EditGame = () => {
         })
         .then(response => {
             if (response.ok) {
-                alert('Juego actualizado exitosamente!');
-                navigate('/administrar-juegos'); // Redirige a la página de administración de juegos
+                //alert('Juego actualizado exitosamente!');
+                //navigate('/administrar-juegos'); // Redirige a la página de administración de juegos
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Juego actualizado exitosamente!',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    navigate('/administrar-juegos'); // Redirige a la página de administración de juegos después de que se cierra la alerta
+                });
             } else {
-                alert('Hubo un problema al actualizar el juego.');
+                //alert('Hubo un problema al actualizar el juego.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un problema al actualizar el juego.',
+                    text: 'Por favor, inténtalo nuevamente.',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar'
+                });
             }
         })
         .catch(error => console.error("Error al actualizar el juego:", error));

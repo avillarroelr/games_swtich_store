@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ManageGames = () => {
     const [games, setGames] = useState([]);
@@ -14,6 +15,10 @@ const ManageGames = () => {
             .catch(error => console.error('Error al cargar los juegos:', error));
     }, []);
 
+    const handleBack = () => {
+        navigate(-1); // Navega a la página anterior en el historial
+    };
+
     const handleDelete = (gameId) => {
         const updatedGames = games.filter(game => game.id_juego !== gameId);
         setGames(updatedGames);
@@ -24,14 +29,27 @@ const ManageGames = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedGames)
         })
-        .then(response => {
-            if (response.ok) {
-                alert('Juego eliminado con éxito');
-            } else {
-                alert('Hubo un problema al eliminar el juego.');
-            }
-        })
-        .catch(error => console.error('Error al actualizar el archivo JSON:', error));
+            .then(response => {
+                if (response.ok) {
+                    //alert('Juego eliminado con éxito');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Juego eliminado con éxito',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar'
+                    });
+                } else {
+                    //alert('Hubo un problema al eliminar el juego.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hubo un problema al eliminar el juego.',
+                        text: 'Por favor, inténtalo nuevamente.',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            })
+            .catch(error => console.error('Error al actualizar el archivo JSON:', error));
     };
 
     const handleEdit = (gameId) => {
@@ -41,7 +59,12 @@ const ManageGames = () => {
 
     return (
         <Container style={{ marginTop: '80px' }}>
-            <h2>Administrar Juegos</h2>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="mb-0">Administrar Juegos</h2>
+                <Button variant="primary" type="button" className='btn btn-success' onClick={handleBack}>
+                    Volver a Perfil
+                </Button>
+            </div>
             <Row>
                 {games.map((game) => (
                     <Col md={4} key={game.id_juego} className="mb-4">

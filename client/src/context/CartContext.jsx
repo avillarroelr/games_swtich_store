@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const CartContext = createContext();
 
@@ -21,10 +22,22 @@ export const CartProvider = ({ children }) => {
                 cartItem.id_juego === item.id_juego ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
             );
             setCartItems(updatedCartItems);
-            alert(`Juego Añadido al carrito!`);
+            //alert(`Juego Añadido al carrito!`);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Juego Añadido al carrito!',
+                showConfirmButton: false,
+                timer: 1500
+            });
         } else {
             setCartItems([...cartItems, { ...item, quantity: 1 }]);
-            alert(`Juego Añadido al carrito!`);
+            //alert(`Juego Añadido al carrito!`);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Juego Añadido al carrito!',
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     };
 
@@ -38,7 +51,13 @@ export const CartProvider = ({ children }) => {
         } else {
             setCartItems(cartItems.filter(item => item.id_juego !== itemId));
         }
-        alert('Juego eliminado del carrito');
+        //alert('Juego eliminado del carrito');
+        Swal.fire({
+            icon: 'success',
+            title: '¡Juego eliminado del carrito!',
+            showConfirmButton: false,
+            timer: 1500
+        });
     };
 
     return (

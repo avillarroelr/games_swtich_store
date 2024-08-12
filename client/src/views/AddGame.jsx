@@ -1,5 +1,6 @@
 import React from 'react';
 import GameForm from '../components/GameForm';
+import Swal from 'sweetalert2';
 
 const AddGame = () => {
     const addGameToJson = (newGame) => {
@@ -19,9 +20,21 @@ const AddGame = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Juego agregado exitosamente!');
+                    //alert('Juego agregado exitosamente!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Juego agregado exitosamente!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 } else {
-                    alert('Hubo un problema al agregar el juego.');
+                    //alert('Hubo un problema al agregar el juego.');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Hubo un problema al agregar el juego.',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             })
             .catch(error => console.error('Error al actualizar el archivo JSON:', error));
@@ -35,6 +48,3 @@ const AddGame = () => {
 };
 
 export default AddGame;
-
-
-

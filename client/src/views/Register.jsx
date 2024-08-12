@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Carousel, Container, Row, Col } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const [newUser, setNewUser] = useState({
@@ -43,16 +44,29 @@ const Register = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Usuario registrado con éxito');
+                    //alert('Usuario registrado con éxito');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Usuario registrado con éxito',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar'
+                    });
                 } else {
-                    alert('Hubo un problema al registrar el usuario.');
+                    //alert('Hubo un problema al registrar el usuario.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hubo un problema al registrar el usuario.',
+                        text: 'Por favor, inténtalo nuevamente.',
+                        showConfirmButton: true,
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             })
             .catch(error => console.error('Error al actualizar el archivo JSON:', error));
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-center align-content-center" style={{ minHeight: '100vh', marginTop: '80px' }}>
             <Row className="w-100 justify-content-center">
                 <Col md={8} lg={4}>
                     <Card>

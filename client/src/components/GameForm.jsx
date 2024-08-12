@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const GameForm = ({ onAddGame }) => {
     const [newGame, setNewGame] = useState({
@@ -10,6 +11,12 @@ const GameForm = ({ onAddGame }) => {
         stock: '',
         categoría: []
     });
+
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+    navigate(-1); // Navega a la página anterior en el historial
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,7 +73,10 @@ const GameForm = ({ onAddGame }) => {
                                     <Form.Label>Categoría (separadas por comas):</Form.Label>
                                     <Form.Control type="text" name="categoría" value={newGame.categoría.join(', ')} onChange={handleCategoryChange} required />
                                 </Form.Group>
-                                <Button variant="primary" type="submit">Agregar Juego</Button>
+                                <Form.Group className="mb-3">
+                                    <Button variant="primary" type="submit" className='me-5'>Agregar Juego</Button>
+                                    <Button variant="primary" type="button" className='btn btn-success' onClick={handleBack}>Volver a Perfil</Button>
+                                </Form.Group>
                             </Form>
                         </Card.Body>
                     </Card>

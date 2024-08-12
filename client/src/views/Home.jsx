@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Swal from 'sweetalert2';
 
 const Home = ({ user, onAddToWishlist }) => {
     const [juegos, setJuegos] = useState([]);
@@ -87,7 +88,7 @@ const Home = ({ user, onAddToWishlist }) => {
 
     return (
         <div style={{ marginTop: '80px' }}>
-            <Container>
+            <Container className="mx-auto">
                 <Row>
                     {/* Filtro Barra lateral */}
                     <Col sm={3} style={{ border: '1px solid black', padding: '10px' }}>
@@ -155,10 +156,10 @@ const Home = ({ user, onAddToWishlist }) => {
 
                     {/* Tarjetas de Juegos */}
                     <Col sm={9}>
-                        <Row>
+                        <Row className="justify-content-center fx-auto">
                             {filteredJuegos.map((juego) => (
-                                <Col sm={12} md={6} lg={4} key={juego.id_juego} className="mb-4">
-                                    <Card style={{ width: '18rem' }}>
+                                <Col xs={12} sm={12} md={5} lg={4} key={juego.id_juego} className="mb-4 col-auto">
+                                    <Card style={{ width: '18rem' }} className="w-100">
                                         <Card.Img variant="top" src={juego.url_imagen_juego} alt={juego.titulo} />
                                         <Card.Body>
                                             <Card.Title>{juego.titulo}</Card.Title>
@@ -178,16 +179,22 @@ const Home = ({ user, onAddToWishlist }) => {
                                             <div className="priceHome">
                                                 <h2>${formatNumber(juego.precio)}</h2>
                                             </div>
-                                            <div className="baseHome">
-                                                <Button variant="info" onClick={() => navigate(`/detallejuego/${juego.id_juego}`)}>Ver Más  <img src="./src/img/eyes.png" alt="" className="icontiny" /></Button>
-                                                <Button className="ms-2" variant="danger" onClick={() => addToCart(juego)}>Añadir <img src="./src/img/shopping-cart.png" alt="" className="icontiny" /></Button>
+                                            <div className="baseHome text-center">
+                                                <Button variant="info" style={{ height: '2.5rem' }} onClick={() => navigate(`/detallejuego/${juego.id_juego}`)}>Ver Más  <img src="./src/img/eyes.png" alt="" className="icontiny" /></Button>
+                                                <Button className="ms-2" style={{ height: '2.5rem' }} variant="danger" onClick={() => addToCart(juego)}>Añadir <img src="./src/img/shopping-cart.png" alt="" className="icontiny" /></Button>
                                                 {user && (
                                                     <Button
-                                                        className="ms-2"
+                                                        className="ms-2 mt-2"
                                                         variant="outline-danger"
                                                         onClick={() => {
                                                             onAddToWishlist(juego);
-                                                            alert('Agregado a lista de deseos');
+                                                            //alert('Agregado a lista de deseos');
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Añadido a la lista de deseos',
+                                                                showConfirmButton: false,
+                                                                timer: 1500
+                                                            });
                                                         }}
                                                     >
                                                         ❤️
