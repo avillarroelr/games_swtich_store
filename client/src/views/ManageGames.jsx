@@ -16,16 +16,14 @@ const ManageGames = () => {
     }, []);
 
     const handleBack = () => {
-        navigate(-1); // Navega a la página anterior en el historial
+        navigate(-1); // Navega a la página anterior 
     };
 
     const handleDelete = (gameId) => {
         const updatedGames = games.filter(game => game.id_juego !== gameId);
         setGames(updatedGames);
-
-        // Actualizar el archivo JSON o API después de eliminar
         fetch('/juegos.json', {
-            method: 'PUT', // Cambia a DELETE si es necesario para tu backend
+            method: 'PUT', // Aquise cambiara a DELETE para el backend
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedGames)
         })

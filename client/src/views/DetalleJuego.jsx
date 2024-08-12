@@ -10,7 +10,7 @@ const DetalleJuego = ({ user, onAddToWishlist }) => {
     const { id_juego } = useParams();
     const [juego, setJuego] = useState(null);
     const { addToCart, formatNumber } = useCart();
-    const navigate = useNavigate(); // Hook para navegación
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('/juegos.json')
