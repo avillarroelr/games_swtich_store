@@ -78,7 +78,7 @@ const Home = ({ user, onAddToWishlist }) => {
             });
         }
 
-        // Si no hay filtros aplicados, muestra todos los juegos
+        // Si no hay filtros muestra todos los juegos
         if (categories.length === 0 && !priceRange) {
             filtered = juegos;
         }
@@ -90,7 +90,7 @@ const Home = ({ user, onAddToWishlist }) => {
         <div style={{ marginTop: '80px' }}>
             <Container className="mx-auto">
                 <Row>
-                    {/* Filtro Barra lateral */}
+                    {/* Filtro Barra Izquierda */}
                     <Col sm={3} style={{ border: '1px solid black', padding: '10px' }}>
                         <h4>Filtros</h4>
                         <hr />

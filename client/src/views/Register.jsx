@@ -36,14 +36,25 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!newUser.avatar) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Selecciona un avatar',
+                text: 'Por favor, haz clic en un avatar para seleccionarlo antes de registrarte.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+
         fetch('/usuarios.json')
             .then(response => response.json())
             .then(data => {
                 const newId = data.length > 0 ? (parseInt(data[data.length - 1].id_usuario) + 1).toString() : "1";
-                const userWithId = { ...newUser, id_usuario: newId, rol: "usuario" }; // Rol por defecto: usuario
+                const userWithId = { ...newUser, id_usuario: newId, rol: "usuario" };
                 const updatedUsers = [...data, userWithId];
                 return fetch('/usuarios.json', {
-                    method: 'PUT', // Cambia a POST cuando usemos el backend
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedUsers)
                 });
@@ -56,7 +67,7 @@ const Register = () => {
                         showConfirmButton: true,
                         confirmButtonText: 'Aceptar'
                     }).then(() => {
-                        navigate('/login');  // Redirige al formulario de inicio de sesión después de registrar usuario
+                        navigate('/login');
                     });
                 } else {
                     Swal.fire({
@@ -96,7 +107,7 @@ const Register = () => {
                                     <Form.Control type="password" name="contrasena" value={newUser.contrasena} onChange={handleChange} required />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Elige tu Avatar:</Form.Label>
+                                    <Form.Label>Elige tu Avatar: <small className="text-muted">(Haz clic en un avatar para seleccionarlo)</small></Form.Label>
                                     <Carousel interval={null} className="text-center carousel-dark">
                                         {avatars.map((avatar, index) => (
                                             <Carousel.Item key={index}>
@@ -129,5 +140,7 @@ const Register = () => {
 };
 
 export default Register;
+
+
 
 

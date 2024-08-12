@@ -23,8 +23,6 @@ const ManageUsers = () => {
     const handleDelete = (userId) => {
         const updatedUsers = users.filter(user => user.id_usuario !== userId);
         setUsers(updatedUsers);
-
-        // Actualizar el archivo JSON después de eliminar
         fetch('/usuarios.json', {
             method: 'PUT', // Cambia a DELETE cuando se use el backend
             headers: { 'Content-Type': 'application/json' },
