@@ -1,9 +1,15 @@
 import React from 'react';
 import { Card, Container, Row, Col, ListGroup, Image, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const Profile = ({ user, wishlist }) => {
     const navigate = useNavigate();
+    const { addToCart, removeFromCart, formatNumber, cartItems } = useCart();
+
+    const isInCart = (gameId) => {
+        return cartItems.some(item => item.id_juego === gameId);
+    };
 
     return (
         <Container style={{ marginTop: '80px' }}>
@@ -51,14 +57,24 @@ const Profile = ({ user, wishlist }) => {
                                 <ListGroup variant="flush">
                                     {wishlist.length > 0 ? (
                                         wishlist.map((game, index) => (
-                                            <ListGroup.Item key={index} className="d-flex align-items-center">
-                                                <Image 
-                                                    src={game.url_imagen_juego} 
-                                                    alt={game.titulo} 
-                                                    thumbnail 
-                                                    style={{ width: '60px', height: '60px', objectFit: 'cover', marginRight: '15px' }}
-                                                />
-                                                <span>{game.titulo}</span>
+                                            <ListGroup.Item key={index} className="d-flex align-items-center justify-content-between">
+                                                <div className="d-flex align-items-center">
+                                                    <Image 
+                                                        src={game.url_imagen_juego} 
+                                                        alt={game.titulo} 
+                                                        thumbnail 
+                                                        style={{ width: '60px', height: '60px', objectFit: 'cover', marginRight: '15px' }}
+                                                    />
+                                                    <span>{game.titulo}</span>
+                                                </div>
+                                                <div className="d-flex align-items-center">
+                                                    <span className="me-3"><strong>Precio:</strong> ${formatNumber(game.precio)}</span>
+                                                    {isInCart(game.id_juego) ? (
+                                                        <Button variant="danger" onClick={() => removeFromCart(game.id_juego)}>Quitar del Carrito</Button>
+                                                    ) : (
+                                                        <Button variant="success" onClick={() => addToCart(game)}>Añadir al Carrito</Button>
+                                                    )}
+                                                </div>
                                             </ListGroup.Item>
                                         ))
                                     ) : (
@@ -77,6 +93,7 @@ const Profile = ({ user, wishlist }) => {
 };
 
 export default Profile;
+
 
 
 

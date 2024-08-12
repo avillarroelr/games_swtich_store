@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Carousel, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Register = () => {
@@ -12,11 +13,16 @@ const Register = () => {
         avatar: '',
     });
 
+    const navigate = useNavigate();
+
     const avatars = [
         "https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436185.jpg?w=740&t=st=1723175058~exp=1723175658~hmac=fcb6b3611866b077333f01ea53317516c43f3b1647b64c4b697ed59065bdf092",
         "https://img.freepik.com/free-psd/3d-illustration-person-tank-top_23-2149436202.jpg?w=740&t=st=1723175090~exp=1723175690~hmac=9ba3a31d2018e0e8b2a6280716557c34d6601337250b98ce22d9e14cadf1b15e",
         "https://img.freepik.com/premium-psd/3d-illustration-business-man-with-glasses_23-2149436193.jpg?w=740",
-        "https://img.freepik.com/free-psd/3d-illustration-person-with-long-hair_23-2149436197.jpg?w=740&t=st=1723175196~exp=1723175796~hmac=c295811c9e39b65d2f49552692312272bf4e0c6256fc1605da5eb8fc0d81389c"
+        "https://img.freepik.com/free-psd/3d-illustration-person-with-long-hair_23-2149436197.jpg?w=740&t=st=1723175196~exp=1723175796~hmac=c295811c9e39b65d2f49552692312272bf4e0c6256fc1605da5eb8fc0d81389c",
+        "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses-green-hair_23-2149436201.jpg?w=740&t=st=1723421542~exp=1723422142~hmac=f9c421c2ae4a9d80d018daf781b032e33ee35527926c74e5809bb40b02e01107",
+        "https://img.freepik.com/free-psd/3d-illustration-person_23-2149436192.jpg?w=740&t=st=1723421576~exp=1723422176~hmac=aac0f12975653d44ca8662adc6873ded00bce2dd0dffb294c4687a4ebf81a1d2",
+        "https://img.freepik.com/premium-psd/3d-illustration-person-with-purple-hair-glasses_23-2149436204.jpg?w=740"
     ];
 
     const handleChange = (e) => {
@@ -44,15 +50,15 @@ const Register = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    //alert('Usuario registrado con éxito');
                     Swal.fire({
                         icon: 'success',
                         title: 'Usuario registrado con éxito',
                         showConfirmButton: true,
                         confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        navigate('/login');  // Redirige al formulario de inicio de sesión después de registrar usuario
                     });
                 } else {
-                    //alert('Hubo un problema al registrar el usuario.');
                     Swal.fire({
                         icon: 'error',
                         title: 'Hubo un problema al registrar el usuario.',
@@ -123,4 +129,5 @@ const Register = () => {
 };
 
 export default Register;
+
 
