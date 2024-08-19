@@ -1,3 +1,4 @@
+// CartContext.jsx
 import React, { createContext, useContext, useState } from 'react';
 import Swal from 'sweetalert2';
 
@@ -22,7 +23,6 @@ export const CartProvider = ({ children }) => {
                 cartItem.id_juego === item.id_juego ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
             );
             setCartItems(updatedCartItems);
-            //alert(`Juego Añadido al carrito!`);
             Swal.fire({
                 icon: 'success',
                 title: '¡Juego Añadido al carrito!',
@@ -31,7 +31,6 @@ export const CartProvider = ({ children }) => {
             });
         } else {
             setCartItems([...cartItems, { ...item, quantity: 1 }]);
-            //alert(`Juego Añadido al carrito!`);
             Swal.fire({
                 icon: 'success',
                 title: '¡Juego Añadido al carrito!',
@@ -51,7 +50,6 @@ export const CartProvider = ({ children }) => {
         } else {
             setCartItems(cartItems.filter(item => item.id_juego !== itemId));
         }
-        //alert('Juego eliminado del carrito');
         Swal.fire({
             icon: 'success',
             title: '¡Juego eliminado del carrito!',
@@ -60,8 +58,13 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    // Nueva función para vaciar el carrito
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, totalPrice, formatNumber }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, totalPrice, formatNumber }}>
             {children}
         </CartContext.Provider>
     );

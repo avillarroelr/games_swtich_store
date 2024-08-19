@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -12,6 +13,7 @@ import ManageUsers from './views/ManageUsers';
 import ManageGames from './views/ManageGames';
 import { CartProvider } from './context/CartContext';
 import EditGame from './views/EditGame';
+import Gracias from './views/Gracias';
 import Swal from 'sweetalert2';
 
 export default function App() {
@@ -83,6 +85,7 @@ export default function App() {
                     <Route path="/" element={<Home user={user} onAddToWishlist={handleAddToWishlist} />} />
                     <Route path="/detallejuego/:id_juego" element={<DetalleJuego user={user} onAddToWishlist={handleAddToWishlist} />} />
                     <Route path="/carrito" element={<Carrito />} />
+                    <Route path="/gracias" element={<Gracias />} /> {/* Nueva ruta para la vista de agradecimiento */}
                     <Route path="/agregar-juego" element={user && user.rol === "1" ? <AddGame /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin  */}
                     <Route path="/administrar-usuarios" element={user && user.rol === "1" ? <ManageUsers /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin  */}
                     <Route path="/administrar-juegos" element={user && user.rol === "1" ? <ManageGames /> : <Login onLogin={handleLogin} />} /> {/* Solo visible para admin */}

@@ -38,6 +38,11 @@ export default function NavigationBar({ user, onLogout }) {
                                 <CustomNavLink to="/perfil">
                                     <img src={avatarUrl} alt="Perfil" style={{ width: '40px', borderRadius: '50%' }} />
                                 </CustomNavLink>
+                                {/* Mostrar el carrito solo si el usuario está logueado */}
+                                <img src="./src/img/shopping-cart.png" alt="Carrito" />
+                                <CustomNavLink to="/carrito">
+                                    ${totalPrice}
+                                </CustomNavLink>
                             </>
                         ) : (
                             <>
@@ -49,10 +54,6 @@ export default function NavigationBar({ user, onLogout }) {
                                 </CustomNavLink>
                             </>
                         )}
-                        <img src="./src/img/shopping-cart.png" alt="Carrito" />
-                        <CustomNavLink to="/carrito">
-                            ${totalPrice}
-                        </CustomNavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

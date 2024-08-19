@@ -1,11 +1,29 @@
+// Carrito.jsx
 import React from 'react';
 import { useCart } from "../context/CartContext";
 import { Card, ListGroup, Button, Container, Row, Col, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Carrito = () => {
-    const { cartItems, addToCart, removeFromCart, formatNumber } = useCart();
+    const { cartItems, addToCart, removeFromCart, formatNumber, clearCart } = useCart();
+    const navigate = useNavigate();
 
     const totalPrice = cartItems.reduce((total, item) => total + item.precio * item.quantity, 0);
+
+    const handlePagar = () => {
+        if (cartItems.length > 0) {
+            clearCart(); // Vaciar el carrito
+            navigate('/gracias'); // Redirigir a la vista de agradecimiento
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tu carrito está vacío.',
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+            });
+        }
+    };
 
     return (
         <Container className='containerCarrito' style={{ marginTop: '80px' }}>
@@ -43,7 +61,7 @@ const Carrito = () => {
                                 <ListGroup.Item className="fw-bold">
                                     <div className='carritoPagar'>
                                         <p>Total: ${formatNumber(totalPrice)}</p>
-                                        <Button variant="success" size="sm">Ir a Pagar</Button>
+                                        <Button variant="success" size="sm" onClick={handlePagar}>Ir a Pagar</Button>
                                     </div>
                                 </ListGroup.Item>
                             </ListGroup>
@@ -56,11 +74,3 @@ const Carrito = () => {
 }
 
 export default Carrito;
-
-
-
-
-
-
-
-

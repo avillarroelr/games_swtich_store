@@ -1,10 +1,8 @@
-// Home.jsx
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -94,6 +92,45 @@ const Home = ({ user, onAddToWishlist }) => {
 
         setFilteredJuegos(filtered);
     };
+
+    const handleAddToWishlist = async (juego) => {
+        try {
+            const response = await axios.post('http://localhost:3000/favoritos', {
+                id_publicacion: juego.id_publicacion
+            }, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            });
+    
+            const message = response.data.message;
+            let iconType = 'success';
+    
+            if (response.status === 409) {
+                iconType = 'warning';  // Conflicto, ya está en la lista de deseos
+            } else if (response.status === 201) {
+                iconType = 'success';  // Añadido con éxito
+            }
+    
+            Swal.fire({
+                icon: iconType,
+                title: message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+    
+        } catch (error) {
+            console.error("Error adding to wishlist:", error.response);
+            Swal.fire({
+                icon: 'error',
+                title: 'El juego ya está en la lista de deseos',
+                text: '',
+            });
+        }
+    };
+    
+    
+
 
     return (
         <div style={{ marginTop: '80px' }}>
@@ -186,15 +223,7 @@ const Home = ({ user, onAddToWishlist }) => {
                                                     <Button
                                                         className="ms-2 mt-2"
                                                         variant="outline-danger"
-                                                        onClick={() => {
-                                                            onAddToWishlist(juego);
-                                                            Swal.fire({
-                                                                icon: 'success',
-                                                                title: 'Añadido a la lista de deseos',
-                                                                showConfirmButton: false,
-                                                                timer: 1500
-                                                            });
-                                                        }}
+                                                        onClick={() => handleAddToWishlist(juego)}
                                                     >
                                                         ❤️
                                                     </Button>
@@ -213,9 +242,3 @@ const Home = ({ user, onAddToWishlist }) => {
 };
 
 export default Home;
-
-
-
-
-
-
