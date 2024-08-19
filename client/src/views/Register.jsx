@@ -1,14 +1,16 @@
+// Register.jsx
 import React, { useState } from 'react';
 import { Form, Button, Card, Carousel, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Register = () => {
     const [newUser, setNewUser] = useState({
         nombre: '',
         apellido: '',
         email: '',
-        contrasena: '',
+        contraseña: '',
         fecha_registro: new Date().toLocaleDateString(),
         avatar: '',
     });
@@ -34,7 +36,7 @@ const Register = () => {
         setNewUser({ ...newUser, avatar: selectedAvatar });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!newUser.avatar) {
@@ -47,39 +49,38 @@ const Register = () => {
             return;
         }
 
-        fetch('/usuarios.json')
-            .then(response => response.json())
-            .then(data => {
-                const newId = data.length > 0 ? (parseInt(data[data.length - 1].id_usuario) + 1).toString() : "1";
-                const userWithId = { ...newUser, id_usuario: newId, rol: "usuario" };
-                const updatedUsers = [...data, userWithId];
-                return fetch('/usuarios.json', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedUsers)
+        try {
+            console.log(newUser);
+            const response = await axios.post('http://localhost:3000/usuarios/registro', newUser);
+            
+            if (response.data.id_usuario) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuario registrado con éxito',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    navigate('/login');
                 });
-            })
-            .then(response => {
-                if (response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Usuario registrado con éxito',
-                        showConfirmButton: true,
-                        confirmButtonText: 'Aceptar'
-                    }).then(() => {
-                        navigate('/login');
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Hubo un problema al registrar el usuario.',
-                        text: 'Por favor, inténtalo nuevamente.',
-                        showConfirmButton: true,
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
-            })
-            .catch(error => console.error('Error al actualizar el archivo JSON:', error));
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un problema al registrar el usuario.',
+                    text: response.data.error || 'Por favor, inténtalo nuevamente.',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        } catch (error) {
+            console.error('Error al registrar el usuario:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Hubo un problema al registrar el usuario.',
+                text: error.response?.data?.error || 'Por favor, inténtalo nuevamente.',
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar'
+            });
+        }
     };
 
     return (
@@ -104,7 +105,7 @@ const Register = () => {
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Contraseña:</Form.Label>
-                                    <Form.Control type="password" name="contrasena" value={newUser.contrasena} onChange={handleChange} required />
+                                    <Form.Control type="password" name="contraseña" value={newUser.contraseña} onChange={handleChange} required />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Elige tu Avatar: <small className="text-muted">(Haz clic en un avatar para seleccionarlo)</small></Form.Label>
@@ -140,7 +141,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
-
-

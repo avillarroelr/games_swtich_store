@@ -1,3 +1,4 @@
+// Navbar.jsx
 import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -6,7 +7,11 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 export default function NavigationBar({ user, onLogout }) {
     const { totalPrice } = useCart();
     const navigate = useNavigate();
+    
+    const avatarUrl = user?.avatar || "./src/img/default-avatar.png"; 
 
+    console.log('Avatar URL:', avatarUrl);
+    
     const CustomNavLink = ({ to, children }) => (
         <Nav.Link as={NavLink} to={to} className={({ isActive }) => (isActive ? "active" : "")}>
             {children}
@@ -31,7 +36,7 @@ export default function NavigationBar({ user, onLogout }) {
                             <>
                                 <Nav.Link onClick={onLogout}>Cerrar Sesión</Nav.Link>
                                 <CustomNavLink to="/perfil">
-                                    <img src={user.avatar} alt="Perfil" style={{ width: '40px', borderRadius: '50%' }} />
+                                    <img src={avatarUrl} alt="Perfil" style={{ width: '40px', borderRadius: '50%' }} />
                                 </CustomNavLink>
                             </>
                         ) : (
@@ -54,9 +59,3 @@ export default function NavigationBar({ user, onLogout }) {
         </Navbar>
     );
 }
-
-
-
-
-
-

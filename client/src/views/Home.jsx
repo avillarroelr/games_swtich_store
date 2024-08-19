@@ -1,3 +1,5 @@
+// Home.jsx
+import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -15,18 +17,26 @@ const Home = ({ user, onAddToWishlist }) => {
     const [filteredJuegos, setFilteredJuegos] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
+    const [categories, setCategories] = useState([]);
 
     const { addToCart, formatNumber } = useCart();
     let navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/juegos.json')
-            .then(response => response.json())
-            .then(data => {
-                setJuegos(data);
-                setFilteredJuegos(data);
+        // Obtener publicaciones (juegos) desde la API
+        axios.get('http://localhost:3000/publicaciones')
+            .then(response => {
+                setJuegos(response.data);
+                setFilteredJuegos(response.data);
             })
-            .catch(error => console.error("Error fetching data: ", error));
+            .catch(error => console.error("Error fetching games: ", error));
+
+        // Obtener categorías desde la API
+        axios.get('http://localhost:3000/categorias')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => console.error("Error fetching categories: ", error));
     }, []);
 
     const handleCategoryChange = (category) => {
@@ -54,13 +64,13 @@ const Home = ({ user, onAddToWishlist }) => {
 
         if (categories.length > 0) {
             filtered = filtered.filter(juego =>
-                juego.categoría.some(cat => categories.includes(cat))
+                categories.includes(juego.id_categoria)
             );
         }
 
         if (priceRange) {
             filtered = filtered.filter(juego => {
-                const price = parseInt(juego.precio, 10);
+                const price = parseFloat(juego.precio);
                 switch (priceRange) {
                     case 'free':
                         return price === 0;
@@ -78,7 +88,6 @@ const Home = ({ user, onAddToWishlist }) => {
             });
         }
 
-        // Si no hay filtros muestra todos los juegos
         if (categories.length === 0 && !priceRange) {
             filtered = juegos;
         }
@@ -94,15 +103,15 @@ const Home = ({ user, onAddToWishlist }) => {
                     <Col sm={3} style={{ border: '1px solid black', padding: '10px' }}>
                         <h4>Filtros</h4>
                         <hr />
-                        <h5>Género del Juego</h5>
+                        <h5>Categoría del Juego</h5>
                         <Form>
-                            {['Acción', 'Aventuras', 'Deporte', 'Estrategia', 'Lucha'].map((category, index) => (
+                            {categories.map((category, index) => (
                                 <Form.Check 
                                     type="checkbox" 
                                     key={index} 
-                                    label={category} 
-                                    onChange={() => handleCategoryChange(category)}
-                                    checked={selectedCategories.includes(category)}
+                                    label={category.nombre} 
+                                    onChange={() => handleCategoryChange(category.id_categoria)}
+                                    checked={selectedCategories.includes(category.id_categoria)}
                                 />
                             ))}
                         </Form>
@@ -158,29 +167,20 @@ const Home = ({ user, onAddToWishlist }) => {
                     <Col sm={9}>
                         <Row className="justify-content-center fx-auto">
                             {filteredJuegos.map((juego) => (
-                                <Col xs={12} sm={12} md={5} lg={4} key={juego.id_juego} className="mb-4 col-auto">
+                                <Col xs={12} sm={12} md={5} lg={4} key={juego.id_publicacion} className="mb-4 col-auto">
                                     <Card style={{ width: '18rem' }} className="w-100">
                                         <Card.Img variant="top" src={juego.url_imagen_juego} alt={juego.titulo} />
                                         <Card.Body>
                                             <Card.Title>{juego.titulo}</Card.Title>
                                             <Card.Text style={{ textAlign: "justify" }}>
-                                                {juego.descripción}
+                                                {juego.descripcion}
                                             </Card.Text>
-                                            <hr />
-                                            <h5>Categoría</h5>
-                                            <ListGroup className="list-group-flush">
-                                                {juego.categoría.map((category, index) => (
-                                                    <ListGroup.Item key={index}>
-                                                        <img src="./src/img/category.png" alt="" className="icontiny" /> {category}
-                                                    </ListGroup.Item>
-                                                ))}
-                                            </ListGroup>
                                             <hr />
                                             <div className="priceHome">
                                                 <h2>${formatNumber(juego.precio)}</h2>
                                             </div>
                                             <div className="baseHome text-center">
-                                                <Button variant="info" style={{ height: '2.5rem' }} onClick={() => navigate(`/detallejuego/${juego.id_juego}`)}>Ver Más  <img src="./src/img/eyes.png" alt="" className="icontiny" /></Button>
+                                                <Button variant="info" style={{ height: '2.5rem' }} onClick={() => navigate(`/detallejuego/${juego.id_publicacion}`)}>Ver Más  <img src="./src/img/eyes.png" alt="" className="icontiny" /></Button>
                                                 <Button className="ms-2" style={{ height: '2.5rem' }} variant="danger" onClick={() => addToCart(juego)}>Añadir <img src="./src/img/shopping-cart.png" alt="" className="icontiny" /></Button>
                                                 {user && (
                                                     <Button
@@ -188,7 +188,6 @@ const Home = ({ user, onAddToWishlist }) => {
                                                         variant="outline-danger"
                                                         onClick={() => {
                                                             onAddToWishlist(juego);
-                                                            //alert('Agregado a lista de deseos');
                                                             Swal.fire({
                                                                 icon: 'success',
                                                                 title: 'Añadido a la lista de deseos',
@@ -214,6 +213,7 @@ const Home = ({ user, onAddToWishlist }) => {
 };
 
 export default Home;
+
 
 
 

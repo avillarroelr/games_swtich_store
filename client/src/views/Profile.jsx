@@ -1,15 +1,47 @@
-import React from 'react';
+// Profile.jsx
+import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col, ListGroup, Image, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import axios from 'axios';
 
-const Profile = ({ user, wishlist }) => {
+const Profile = () => {
+    const [user, setUser] = useState(null);
+    const [wishlist, setWishlist] = useState([]);
     const navigate = useNavigate();
     const { addToCart, removeFromCart, formatNumber, cartItems } = useCart();
 
     const isInCart = (gameId) => {
         return cartItems.some(item => item.id_juego === gameId);
     };
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await axios.get('http://localhost:3000/usuarios/perfil', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.status === 200) {
+                    setUser(response.data);
+                } else {
+                    console.error('Error al obtener los datos del usuario');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    if (!user) {
+        return <p>Cargando datos del usuario...</p>;
+    }
 
     return (
         <Container style={{ marginTop: '80px' }}>
@@ -32,8 +64,8 @@ const Profile = ({ user, wishlist }) => {
                                     <Card.Text><strong>Apellido:</strong> {user.apellido}</Card.Text>
                                     <Card.Text><strong>Email:</strong> {user.email}</Card.Text>
                                     <Card.Text><strong>Fecha de Registro:</strong> {user.fecha_registro}</Card.Text>
-                                    <Card.Text><strong>Rol:</strong> {user.rol === "1" ? "Administrador" : "Usuario"}</Card.Text>
-                                    {user.rol === "1" && (
+                                    <Card.Text><strong>Rol:</strong> {user.rol == "0" ? "Administrador" : "Usuario"}</Card.Text>
+                                    {user.rol == "0" && (
                                         <div className="mt-3">
                                             <Button variant="primary" className="mb-2 me-2" onClick={() => navigate('/agregar-juego')}>
                                                 Agregar Juego
@@ -93,9 +125,3 @@ const Profile = ({ user, wishlist }) => {
 };
 
 export default Profile;
-
-
-
-
-
-

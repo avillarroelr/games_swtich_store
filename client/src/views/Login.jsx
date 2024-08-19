@@ -1,10 +1,12 @@
+// Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Login = ({ onLogin }) => {
-    const [credentials, setCredentials] = useState({ email: '', contrasena: '' });
+    const [credentials, setCredentials] = useState({ email: '', contraseña: '' });
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -12,26 +14,38 @@ const Login = ({ onLogin }) => {
         setCredentials({ ...credentials, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        fetch('/usuarios.json')
-            .then(response => response.json())
-            .then(data => {
-                const user = data.find(user => user.email === credentials.email && user.contrasena === credentials.contrasena);
-                if (user) {
-                    onLogin(user);
-                    navigate('/');
-                } else {
-                    //alert('Credenciales incorrectas');
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Credenciales incorrectas.',
-                        text: 'Por favor, inténtalo nuevamente.',
-                        showConfirmButton: true,
-                        confirmButtonText: 'Aceptar',
-                    });
-                }
+    
+        try {
+            const response = await axios.post('http://localhost:3000/usuarios/login', credentials);
+    
+            if (response.status === 200) {
+                console.log("User data:", response.data);
+                //const userData = response.data;
+                //localStorage.setItem('user', JSON.stringify(userData));
+                //onLogin(userData);
+                localStorage.setItem('token', response.data.token);
+                onLogin(response.data);
+                navigate('/');
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Credenciales incorrectas.',
+                    text: response.data.error || 'Por favor, inténtalo nuevamente.',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Aceptar',
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en el servidor.',
+                text: error.response?.data?.error || 'No se pudo completar la solicitud. Intenta de nuevo más tarde.',
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
             });
+        }
     };
 
     return (
@@ -56,8 +70,8 @@ const Login = ({ onLogin }) => {
                                     <Form.Label>Contraseña:</Form.Label>
                                     <Form.Control 
                                         type="password" 
-                                        name="contrasena" 
-                                        value={credentials.contrasena} 
+                                        name="contraseña" 
+                                        value={credentials.contraseña} 
                                         onChange={handleChange} 
                                         required 
                                     />
@@ -73,6 +87,3 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
-
-
-

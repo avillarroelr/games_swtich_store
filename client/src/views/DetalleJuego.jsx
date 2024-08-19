@@ -1,6 +1,8 @@
+// DetalleJuego.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -13,20 +15,29 @@ const DetalleJuego = ({ user, onAddToWishlist }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/juegos.json')
-            .then(response => response.json())
-            .then(data => {
-                const foundGame = data.find(game => game.id_juego === id_juego);
-                setJuego(foundGame);
-            })
-            .catch(error => console.error("Error fetching data: ", error));
+        const fetchGameDetails = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/publicaciones/${id_juego}`);
+                setJuego(response.data);
+            } catch (error) {
+                console.error("Error fetching game details: ", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar los detalles del juego',
+                    text: 'No se pudieron cargar los detalles del juego. Intenta de nuevo más tarde.',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        };
+
+        fetchGameDetails();
     }, [id_juego]);
 
     if (!juego) {
         return <div>Cargando...</div>;
     }
 
-    const isFavorited = user && user.wishlist && user.wishlist.find(item => item.id_juego === juego.id_juego);
+    const isFavorited = user && user.wishlist && user.wishlist.find(item => item.id_juego === juego.id_publicacion);
 
     return (
         <Container style={{ marginTop: '80px' }}>
@@ -34,7 +45,7 @@ const DetalleJuego = ({ user, onAddToWishlist }) => {
                 <Card.Img variant="top" src={juego.url_imagen_juego} alt={juego.titulo} />
                 <Card.Body>
                     <Card.Title>{juego.titulo}</Card.Title>
-                    <Card.Text style={{ textAlign: "justify" }}>{juego.descripción}</Card.Text>
+                    <Card.Text style={{ textAlign: "justify" }}>{juego.descripcion}</Card.Text>
                     <h4>Precio: ${formatNumber(juego.precio)}</h4>
                     <div className="d-flex justify-content-between">
                         <Button variant="danger" onClick={() => addToCart(juego)} className="me-2">Añadir al Carrito</Button>
