@@ -31,10 +31,6 @@ export const createNewFavorite = async (req, res) => {
 };
 
 
-
-
-
-
 export const getFavorites = async (req, res) => {
   try {
     const favorites = await getAllFavorites();
