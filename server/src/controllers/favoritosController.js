@@ -1,14 +1,39 @@
 // favoritosController.js
-import { addFavorite, getAllFavorites, findFavoriteById, updateFavorite, deleteFavorite } from '../models/favoritosModel.js';
+import { addFavorite, getAllFavorites, findFavoriteById, updateFavorite, deleteFavorite, findFavoriteByUserAndPublication  } from '../models/favoritosModel.js';
 
 export const createNewFavorite = async (req, res) => {
-  try {
-    const favorite = await addFavorite(req.body);
-    res.status(201).json(favorite);
-  } catch (error) {
-    res.status(400).json({ error: 'Error al agregar a favoritos' });
+  const { id_publicacion } = req.body;
+  const id_usuario = req.user.id_usuario;
+
+  if (!id_usuario || !id_publicacion) {
+      return res.status(400).json({ error: 'Datos incompletos' });
   }
+
+  try {
+    console.log("Datos recibidos para agregar a favoritos:", { id_usuario, id_publicacion });
+    const result = await addFavorite({
+        id_usuario,
+        id_publicacion,
+        fecha_valoracion: new Date(),
+    });
+
+    console.log("Resultado de la operación:", result);
+
+    if (result && typeof result.exists !== 'undefined') {
+        return res.status(result.status).json({ message: result.message });
+    } else {
+        throw new Error('Respuesta inesperada del servidor');
+    }
+} catch (error) {
+    console.error("Error al agregar a favoritos:", error.message);
+    return res.status(500).json({ error: 'Error inesperado al agregar a favoritos' });
+}
 };
+
+
+
+
+
 
 export const getFavorites = async (req, res) => {
   try {
